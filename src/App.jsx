@@ -1,45 +1,59 @@
-import { useState } from 'react'
-import logo from './logo.svg'
-import './App.css'
+import { useReducer } from "react";
+import "./App.css";
+import reducer from "./reducer/reducer";
+import OperationButton from "./components/OperationButton";
+import DigitButton from "./components/DigitButton";
+
+export const ACTIONS = {
+  ADD_DIGIT: "add_digit",
+  CLEAR: "clear",
+  CHOOSE_OPERATION: "choose-operation",
+  DELETE_DIGIT: "delete-digit",
+  EVALUATE: "evaluate",
+};
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [{ currentOperand, previousOperand, operation }, dispatch] = useReducer(
+    reducer,
+    {}
+  );
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Vite + React!</p>
-        <p>
-          <button type="button" onClick={() => setCount((count) => count + 1)}>
-            count is: {count}
-          </button>
-        </p>
-        <p>
-          Edit <code>App.jsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {' | '}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
+    <div className="calculator-grid">
+      <div className="output">
+        <div className="previous-operand"></div>
+        <div className="current-operand"></div>
+      </div>
+      <div className="buttons">
+        <button onClick={() => dispatch({ TYPE: ACTIONS.CLEAR })}>AC</button>
+        <button onClick={() => dispatch({ TYPE: ACTIONS.DELETE_DIGIT })}>
+          DEL
+        </button>
+        <OperationButton operation="%" dispatch={dispatch} />
+        <OperationButton operation="÷" dispatch={dispatch} />
+        <DigitButton digit="1" dispatch={dispatch} />
+        <DigitButton digit="2" dispatch={dispatch} />
+        <DigitButton digit="3" dispatch={dispatch} />
+        <OperationButton operation="*" dispatch={dispatch} />
+        <DigitButton digit="4" dispatch={dispatch} />
+        <DigitButton digit="5" dispatch={dispatch} />
+        <DigitButton digit="6" dispatch={dispatch} />
+        <OperationButton operation="+" dispatch={dispatch} />
+        <DigitButton digit="7" dispatch={dispatch} />
+        <DigitButton digit="8" dispatch={dispatch} />
+        <DigitButton digit="9" dispatch={dispatch} />
+        <OperationButton operation="-" dispatch={dispatch} />
+        <DigitButton digit="0" dispatch={dispatch} />
+        <DigitButton digit="." dispatch={dispatch} />
+        <button
+          className="span-two"
+          onClick={() => dispatch({ type: ACTIONS.EVALUATE })}
+        >
+          =
+        </button>
+      </div>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
