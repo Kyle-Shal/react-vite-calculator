@@ -12,8 +12,10 @@ export const ACTIONS = {
   EVALUATE: "evaluate",
 };
 
-export function evaluate(currentOperand, previousOperand, operation) {
+export function evaluate({ currentOperand, previousOperand, operation }) {
   const prev = parseFloat(previousOperand);
+  console.log("prev is", prev);
+
   const current = parseFloat(currentOperand);
   if (isNaN(prev) || isNaN(current)) return "";
   let computation = "";
