@@ -13,7 +13,7 @@ body{
 
 .calculator-grid{
   display: grid;
-  grid-template-columns: 15vh 55vh;
+  grid-template-rows: 15vh 55vh;
 }
 
 .buttons{

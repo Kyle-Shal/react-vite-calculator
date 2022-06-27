@@ -12,6 +12,41 @@ export const ACTIONS = {
   EVALUATE: "evaluate",
 };
 
+export function evaluate(currentOperand, previousOperand, operation) {
+  const prev = parseFloat(previousOperand);
+  const current = parseFloat(currentOperand);
+  if (isNaN(prev) || isNaN(current)) return "";
+  let computation = "";
+  switch (operation) {
+    case "+":
+      computation = prev + current;
+      break;
+    case "-":
+      computation = prev - current;
+      break;
+    case "*":
+      computation = prev * current;
+      break;
+    case "÷":
+      computation = prev / current;
+      break;
+    case "%":
+      computation = prev % current;
+      break;
+  }
+  return computation.toString();
+}
+
+const INTEGER_FORMATTER = new Intl.NumberFormat("en-IN", {
+  maximumFractionDigits: 0,
+});
+
+function formatOperand(operand) {
+  if (operand == null) return;
+  const [integer, decimal] = operand.split(".");
+  if (decimal == null) return INTEGER_FORMATTER.format(integer);
+  return `${INTEGER_FORMATTER.format(integer)}.${decimal}`;
+}
 function App() {
   const [{ currentOperand, previousOperand, operation }, dispatch] = useReducer(
     reducer,
@@ -21,12 +56,16 @@ function App() {
   return (
     <div className="calculator-grid">
       <div className="output">
-        <div className="previous-operand"></div>
-        <div className="current-operand"></div>
+        <div className="previous-operand">
+          {formatOperand(previousOperand)} {operation}
+        </div>
+        <div className="current-operand">
+          {formatOperand(currentOperand) || 0}
+        </div>
       </div>
       <div className="buttons">
-        <button onClick={() => dispatch({ TYPE: ACTIONS.CLEAR })}>AC</button>
-        <button onClick={() => dispatch({ TYPE: ACTIONS.DELETE_DIGIT })}>
+        <button onClick={() => dispatch({ type: ACTIONS.CLEAR })}>AC</button>
+        <button onClick={() => dispatch({ type: ACTIONS.DELETE_DIGIT })}>
           DEL
         </button>
         <OperationButton operation="%" dispatch={dispatch} />
