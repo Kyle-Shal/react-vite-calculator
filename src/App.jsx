@@ -3,6 +3,7 @@ import "./App.css";
 import reducer from "./reducer/reducer";
 import OperationButton from "./components/OperationButton";
 import DigitButton from "./components/DigitButton";
+import { Box, Button, ChakraProvider } from "@chakra-ui/react";
 
 export const ACTIONS = {
   ADD_DIGIT: "add_digit",
@@ -56,44 +57,50 @@ function App() {
   );
 
   return (
-    <div className="calculator-grid">
-      <div className="output">
-        <div className="previous-operand">
-          {formatOperand(previousOperand)} {operation}
+    <ChakraProvider>
+      <Box borderWidth={1} borderRadius={4} p={8} borderColor="rgba(0,0,0,0.2)">
+        <div className="calculator-grid">
+          <div className="output">
+            <div className="previous-operand">
+              {formatOperand(previousOperand)} {operation}
+            </div>
+            <div className="current-operand">
+              {formatOperand(currentOperand) || 0}
+            </div>
+          </div>
+          <div className="buttons">
+            <Button onClick={() => dispatch({ type: ACTIONS.CLEAR })}>
+              AC
+            </Button>
+            <Button onClick={() => dispatch({ type: ACTIONS.DELETE_DIGIT })}>
+              DEL
+            </Button>
+            <OperationButton operation="%" dispatch={dispatch} />
+            <OperationButton operation="÷" dispatch={dispatch} />
+            <DigitButton digit="1" dispatch={dispatch} />
+            <DigitButton digit="2" dispatch={dispatch} />
+            <DigitButton digit="3" dispatch={dispatch} />
+            <OperationButton operation="*" dispatch={dispatch} />
+            <DigitButton digit="4" dispatch={dispatch} />
+            <DigitButton digit="5" dispatch={dispatch} />
+            <DigitButton digit="6" dispatch={dispatch} />
+            <OperationButton operation="+" dispatch={dispatch} />
+            <DigitButton digit="7" dispatch={dispatch} />
+            <DigitButton digit="8" dispatch={dispatch} />
+            <DigitButton digit="9" dispatch={dispatch} />
+            <OperationButton operation="-" dispatch={dispatch} />
+            <DigitButton digit="0" dispatch={dispatch} />
+            <DigitButton digit="." dispatch={dispatch} />
+            <Button
+              className="span-two"
+              onClick={() => dispatch({ type: ACTIONS.EVALUATE })}
+            >
+              =
+            </Button>
+          </div>
         </div>
-        <div className="current-operand">
-          {formatOperand(currentOperand) || 0}
-        </div>
-      </div>
-      <div className="buttons">
-        <button onClick={() => dispatch({ type: ACTIONS.CLEAR })}>AC</button>
-        <button onClick={() => dispatch({ type: ACTIONS.DELETE_DIGIT })}>
-          DEL
-        </button>
-        <OperationButton operation="%" dispatch={dispatch} />
-        <OperationButton operation="÷" dispatch={dispatch} />
-        <DigitButton digit="1" dispatch={dispatch} />
-        <DigitButton digit="2" dispatch={dispatch} />
-        <DigitButton digit="3" dispatch={dispatch} />
-        <OperationButton operation="*" dispatch={dispatch} />
-        <DigitButton digit="4" dispatch={dispatch} />
-        <DigitButton digit="5" dispatch={dispatch} />
-        <DigitButton digit="6" dispatch={dispatch} />
-        <OperationButton operation="+" dispatch={dispatch} />
-        <DigitButton digit="7" dispatch={dispatch} />
-        <DigitButton digit="8" dispatch={dispatch} />
-        <DigitButton digit="9" dispatch={dispatch} />
-        <OperationButton operation="-" dispatch={dispatch} />
-        <DigitButton digit="0" dispatch={dispatch} />
-        <DigitButton digit="." dispatch={dispatch} />
-        <button
-          className="span-two"
-          onClick={() => dispatch({ type: ACTIONS.EVALUATE })}
-        >
-          =
-        </button>
-      </div>
-    </div>
+      </Box>
+    </ChakraProvider>
   );
 }
 

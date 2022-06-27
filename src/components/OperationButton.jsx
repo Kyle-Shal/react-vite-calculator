@@ -1,13 +1,14 @@
 import { ACTIONS } from "../App.jsx";
+import { Button } from "@chakra-ui/react";
 
 export default function DigitButton({ dispatch, operation }) {
   return (
-    <button
+    <Button
       onClick={() =>
         dispatch({ type: ACTIONS.CHOOSE_OPERATION, payload: { operation } })
       }
     >
       {operation}
-    </button>
+    </Button>
   );
 }
